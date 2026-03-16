@@ -1,8 +1,8 @@
-```yaml
+```
 name: 01 - Build Blocks
 
-on:
-  workflow_dispatch:
+on: 
+  workflow_dispatch
 
 jobs:
   echo-hello:
@@ -10,4 +10,3 @@ jobs:
     steps:
       - name: Say Hello
         run: echo "Hello, World!"
-```
