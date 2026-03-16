@@ -1,0 +1,13 @@
+```yaml
+name: 01 - Build Blocks
+
+on:
+  workflow_dispatch:
+
+jobs:
+  echo-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello
+        run: echo "Hello, World!"
+```
