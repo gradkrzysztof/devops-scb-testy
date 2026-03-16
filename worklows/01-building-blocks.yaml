@@ -1,8 +1,0 @@
-```yaml
-steps:
-  - name: Multi-line bash
-    run: |
-      echo "Jestem"
-      echo "wieloliniowym"
-      echo "skryptem."
-```
