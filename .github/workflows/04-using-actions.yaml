@@ -6,9 +6,14 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cwiczenia/react-app
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Printing Folders
-        run: ls -R
+        run: |
+          ls -la
+          pwd
