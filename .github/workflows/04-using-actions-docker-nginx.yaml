@@ -16,7 +16,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
-        working-directory: CWICZENIA/04-praca-z-zewnetrzymi-akcjami/docker-app
+        working-directory: cwiczenia/docker-app
         run: |
           set -eux
           IMAGE_TAG=my-nginx:${GITHUB_SHA}
