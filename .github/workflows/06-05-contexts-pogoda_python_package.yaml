@@ -37,9 +37,23 @@ jobs:
           pip install pyinstaller
       - name: Budowanie binarki przy uzyciu PyInstaller
         run: |
-          pyinstaller --onefile --noconsole start.py
+          pyinstaller --onefile start.py --name pogoda
+      - name: Uruchomienie binarki i zapis do Step Summary
+        run: |
+          ./dist/pogoda "${{ inputs.city }}" "${{ env.MY_KLUCZYK }}" >> "$GITHUB_STEP_SUMMARY"
       - name: Wgranie binarki
         uses: actions/upload-artifact@v4
         with:
           name: pogoda-linux-amd64
-          path: cwiczenia/pogoda_python/dist/pogoda
+          path: ./cwiczenia/pogoda-dist/pogoda
+      - name: "Pogoda binary ${{ inputs.release_tag }}"
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.release_tag }}
+          name: "Pogoda binary ${{ inputs.release_tag }}"
+          draft: false
+          prerelease: false
+          files: |
+            ./CWICZENIA/06-context/pogoda_python/dist/pogoda
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
