@@ -1,0 +1,24 @@
+name: 07 – Using Expressions
+
+on:
+  push:
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        if: github.event_name == 'push'
+        run: echo "I was triggered by a push event"
+  build:
+    runs-on: ubuntu-latest
+    needs: echo
+    steps:
+     - run: echo "Budowanie"
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Wdrazanie
+        if: needs.build.result == 'succes'
+        run: echo 'Wdrazenia udane, bedzie ${{needs.build.outputs.output1}}'
