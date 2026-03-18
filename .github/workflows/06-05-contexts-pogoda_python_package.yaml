@@ -1,0 +1,29 @@
+name: "06-05 - Package Pogoda Info Python"
+run-name: 06-05 - Package Pogoda Info Python dla ${{ inputs.city }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      city:
+        description: "City to get weather info for"
+        type: string
+        default: "Warsaw"
+      release_tag:
+        description: "Tag / wersja releasu (np. v1.0.0)"
+        default: "v0.1.0"
+
+permissions:
+  contents: write
+
+env:
+  MY_KEY: '7cff9972d5c98a9a47ddf6a59cb34d8e'
+
+jobs:
+  pogoda-info:
+    name: obierz informacje o pogodzie + build binarki
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./cwiczenia/pogoda_python
+    
