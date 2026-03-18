@@ -1,0 +1,28 @@
+name: "06-04 - Pogoda Info"
+run-name: 06-04 - Pogoda Pogoda dla ${{ inputs.city }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      city:
+        description: "City to get weather info for"
+        type: string
+        default: "Warsaw"
+
+env:
+  MY_KEY: '7cff9972d5c98a9a47ddf6a59cb34d8e'
+
+obs:
+  pogoda-info:
+    name: Pobierz informacje o pogodzie
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./cwiczenia/pogoda_python
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Sprawdzanie pogody
+        run: |
+          bash ./start.py "${{ inputs.city }}" "${{ env.MY_KEY }}" >> $GITHUB_STEP_SUMMARY
