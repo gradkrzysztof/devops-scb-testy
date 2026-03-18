@@ -40,7 +40,7 @@ jobs:
           pyinstaller --onefile start.py --name pogoda
       - name: Uruchomienie binarki i zapis do Step Summary
         run: |
-          ./dist/pogoda "${{ inputs.city }}" "${{ env.MY_KLUCZYK }}" >> "$GITHUB_STEP_SUMMARY"
+          ./dist/pogoda "${{ inputs.city }}" "${{ env.MY_KEY }}" >> "$GITHUB_STEP_SUMMARY"
       - name: Wgranie binarki
         uses: actions/upload-artifact@v4
         with:
@@ -54,6 +54,6 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            ./CWICZENIA/06-context/pogoda_python/dist/pogoda
+            ./cwiczenia/pogoda_python/dist/pogoda
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
