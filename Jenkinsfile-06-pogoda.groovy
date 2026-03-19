@@ -2,7 +2,7 @@
 import java.text.SimpleDateFormat
 
 def currentDate = new Date()
-String dateTime = currentDate.format("ddMMyyyy HHmm")
+String dateTime = currentDate.format("dd.MM.yyyy HH:mm")
 
 pipeline {
     agent {
