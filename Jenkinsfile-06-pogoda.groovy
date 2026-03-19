@@ -52,7 +52,7 @@ pipeline {
         }
         stage('Wybrales python-flusk') {
             when {
-               expression { params.whichScript == 'python-flusk' }
+                expression { params.whichScript == 'python-flusk' }
             }
             steps {
                 echo "Zbudujemy obraz docker"
@@ -65,7 +65,40 @@ pipeline {
                 }
             }
             steps {
-                echo "budujemy ${localImageName} ${workDir}"
+                sh """
+                    docker build -t "${localImageName}" "${workDir}"
+                """
+            }
+        }
+        stage('Uruchomienie kontenera') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS'
+                }
+            }
+            steps {
+                sh """
+                    docker run -d \
+                    --name pogoda_api \
+                    -p 8000:8000 \
+                    -e OPENWEATHER_API_KEY="${myApiKey}" \
+                    "${localImageName}"
+                    sleep 10
+                """
+            }
+        }
+        stage('Test kontenera') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS'
+                }
+            }
+            steps {
+                sh """
+                    set -e
+                    echo "Testowanie endpointu /weather..."
+                    curl -f "http://localhost:8000/weather?city=Warsaw&api_key=${myApiKey}"
+                """
             }
         }
     }
