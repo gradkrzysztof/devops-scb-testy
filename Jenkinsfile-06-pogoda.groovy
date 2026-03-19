@@ -61,7 +61,7 @@ pipeline {
         stage('Budowanie Obrazy') {
             when {
                 expression {
-                    currentBuild.currentResult == 'SUCCESS'
+                    currentBuild.currentResult == 'SUCCESS' && params.whichScript == 'python-flusk'
                 }
             }
             steps {
@@ -73,7 +73,7 @@ pipeline {
         stage('Uruchomienie kontenera') {
             when {
                 expression {
-                    currentBuild.currentResult == 'SUCCESS'
+                    currentBuild.currentResult == 'SUCCESS' && params.whichScript == 'python-flusk'
                 }
             }
             steps {
@@ -90,7 +90,7 @@ pipeline {
         stage('Test kontenera') {
             when {
                 expression {
-                    currentBuild.currentResult == 'SUCCESS'
+                    currentBuild.currentResult == 'SUCCESS' && params.whichScript == 'python-flusk'
                 }
             }
             steps {
