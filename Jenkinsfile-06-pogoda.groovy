@@ -9,23 +9,23 @@ pipeline {
         string(name: 'city', defaultValue: 'Warsaw', description: 'Wprowadz nazwe miasta do sprawdzenia pogody')
         string(name: 'myApiKey', defaultValue: '7cff9972d5c98a9a47ddf6a59cb34d8e', description: 'Wprowadz klucz API do pogody')
     }
-}
 
-stages {
-    stage('Wybrales bash') {
-        when {
-            expression { params.whichScript == 'bash' }
+    stages {
+        stage('Wybrales bash') {
+            when {
+                expression { params.whichScript == 'bash' }
+            }
+            steps {
+                sh "bash ./cwiczenia/pogoda/start.sh '${whichScript}' '${myApiKey}'"
+            }
         }
-        steps {
-            sh "bash ./cwiczenia/pogoda/start.sh '${whichScript}' '${myApiKey}'"
-        }
-    }
-    stage('Wybrales python') {
-        when {
-            expression { params.whichScript == 'python' }
-        }
-        steps {
-            sh "python3 ./cwiczenia/pogoda_python/start.py '${whichScript}' '${myApiKey}'"
+        stage('Wybrales python') {
+            when {
+               expression { params.whichScript == 'python' }
+            }
+            steps {
+                sh "python3 ./cwiczenia/pogoda_python/start.py '${whichScript}' '${myApiKey}'"
+            }
         }
     }
 }
