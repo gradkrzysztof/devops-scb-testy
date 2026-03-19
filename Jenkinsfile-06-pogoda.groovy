@@ -12,11 +12,13 @@ pipeline {
         choice(name: 'whichScript', choices: ['bash', 'python', 'python-flusk'], description: 'Wybierz skrypt ktory uruchomimy')
         string(name: 'city', defaultValue: 'Warsaw', description: 'Wprowadz nazwe miasta do sprawdzenia pogody')
         string(name: 'myApiKey', defaultValue: '7cff9972d5c98a9a47ddf6a59cb34d8e', description: 'Wprowadz klucz API do pogody')
-        string(name: 'localImageName', defaultValue: 'python_pogoda:test', description: 'Wprowadz nazwe dla budowanego obrazu oraz wersje')
+        string(name: 'localImageName', defaultValue: 'python_pogoda', description: 'Wprowadz nazwe dla budowanego obrazu oraz wersje')
+        string(name: 'tagImage', defaultValue: 'test', description: 'Wprowadz tag dla budowanego obrazu')
     }
     environment {
         workDir = "./cwiczenia/pogoda_python_flusk"
         myDockerCredential = credentials('dockerHubCredentials')
+        HUB_IMAGE_BASE="gradk86/python_pogoda_17_03_2026"
     }
     stages {
         stage('Wybrales bash') {
@@ -67,7 +69,7 @@ pipeline {
             }
             steps {
                 sh """
-                    docker build -t "${localImageName}" "${workDir}"
+                    docker build -t "${localImageName}:${tagImage}" "${workDir}"
                 """
             }
         }
@@ -118,7 +120,7 @@ pipeline {
         stage('Logowanie do docker`a') {
             when {
                 expression {
-                    currentBuild.currentResult == 'SUCCESS'
+                    currentBuild.currentResult == 'SUCCESS' && params.whichScript == 'python-flusk'
                 }
             }
             steps {
@@ -128,6 +130,20 @@ pipeline {
                 sh """
                     echo "$DockerPassword" | docker login -u "$DockerUsername" --password-stdin
                 """
+                }
+            }
+        }
+        stage('Tag i wypchniecie do docker`a') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS' && params.whichScript == 'python-flusk'
+                }
+            }
+            steps {
+                sh """
+                    docker tag ${localImageName}:${tagImage} ${HUB_IMAGE_BASE}/${localImageName}:latest
+                    docker push "${HUB_IMAGE_BASE}/${localImageName}:latest"
+                
                 }
             }
         }
