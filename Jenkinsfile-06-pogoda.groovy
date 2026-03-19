@@ -26,6 +26,16 @@ pipeline {
                 """
             }
         }
+        stage('Test bash') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS'
+                }
+            }
+            steps {
+                echo 'Udalo sie wykonac skrypt pogoda'
+            }
+        }
         stage('Wybrales python') {
             when {
                expression { params.whichScript == 'python' }
