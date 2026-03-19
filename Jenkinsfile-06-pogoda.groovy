@@ -73,6 +73,22 @@ pipeline {
                 """
             }
         }
+        stage('Logowanie do docker`a') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS' && params.whichScript == 'python-flusk'
+                }
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials',
+                                                        passwordVariable: 'DockerPassword',
+                                                        usernameVariable: 'DockerUsername')]) {
+                sh """
+                    echo "$DockerPassword" | docker login -u "$DockerUsername" --password-stdin
+                """
+                }
+            }
+        }
         stage('Uruchomienie kontenera') {
             when {
                 expression {
@@ -115,22 +131,6 @@ pipeline {
                     docker stop pogoda_api || true
                     docker rm pogoda_api || true
                 """
-            }
-        }
-        stage('Logowanie do docker`a') {
-            when {
-                expression {
-                    currentBuild.currentResult == 'SUCCESS' && params.whichScript == 'python-flusk'
-                }
-            }
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials',
-                                                        passwordVariable: 'DockerPassword',
-                                                        usernameVariable: 'DockerUsername')]) {
-                sh """
-                    echo "$DockerPassword" | docker login -u "$DockerUsername" --password-stdin
-                """
-                }
             }
         }
         stage('Tag i wypchniecie do docker`a') {
