@@ -143,10 +143,10 @@ pipeline {
                 sh """
                     docker tag ${localImageName}:${tagImage} ${HUB_IMAGE_BASE}/${localImageName}:latest
                     docker push "${HUB_IMAGE_BASE}/${localImageName}:latest"
-                
-                }
+                """
             }
         }
+    }
     }
     post {
         always {
