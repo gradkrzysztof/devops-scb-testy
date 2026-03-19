@@ -9,11 +9,14 @@ pipeline {
         label 'dev'
     }
     parameters {
-        choice(name: 'whichScript', choices: ['bash', 'python'], description: 'Wybierz skrypt ktory uruchomimy')
+        choice(name: 'whichScript', choices: ['bash', 'python', 'python-flusk'], description: 'Wybierz skrypt ktory uruchomimy')
         string(name: 'city', defaultValue: 'Warsaw', description: 'Wprowadz nazwe miasta do sprawdzenia pogody')
         string(name: 'myApiKey', defaultValue: '7cff9972d5c98a9a47ddf6a59cb34d8e', description: 'Wprowadz klucz API do pogody')
+        string(name: 'localImageName', defaultValue: 'python_pogoda:test', description: 'Wprowadz nazwe dla budowanego obrazu oraz wersje')
     }
-
+    environment {
+        workDir = "./cwiczenia/pogoda_python_flusk"
+    }
     stages {
         stage('Wybrales bash') {
             when {
