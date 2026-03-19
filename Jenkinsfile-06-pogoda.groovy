@@ -50,6 +50,24 @@ pipeline {
                 """
             }
         }
+        stage('Wybrales python-flusk') {
+            when {
+               expression { params.whichScript == 'python-flusk' }
+            }
+            steps {
+                echo "Zbudujemy obraz docker"
+            }
+        }
+        stage('Budowanie Obrazy') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS'
+                }
+            }
+            steps {
+                echo "budujemy ${localImageName} ${workDir}"
+            }
+        }
     }
     post {
         always {
