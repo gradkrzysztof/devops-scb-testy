@@ -16,7 +16,7 @@ pipeline {
                 expression { params.whichScript == 'bash' }
             }
             steps {
-                sh "bash ./cwiczenia/pogoda/start.sh '${whichScript}' '${myApiKey}'"
+                sh "bash ./cwiczenia/pogoda/start.sh '${city}' '${myApiKey}'"
             }
         }
         stage('Wybrales python') {
@@ -24,7 +24,7 @@ pipeline {
                expression { params.whichScript == 'python' }
             }
             steps {
-                sh "python3 ./cwiczenia/pogoda_python/start.py '${whichScript}' '${myApiKey}'"
+                sh "python3 ./cwiczenia/pogoda_python/start.py '${city}' '${myApiKey}'"
             }
         }
     }
