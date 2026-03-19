@@ -101,7 +101,7 @@ pipeline {
                     --name pogoda_api \
                     -p 8000:8000 \
                     -e OPENWEATHER_API_KEY="${myApiKey}" \
-                    "${localImageName}"
+                    "${localImageName}:${tagImage}"
                     sleep 10
                 """
             }
