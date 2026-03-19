@@ -61,18 +61,6 @@ pipeline {
                 echo "Zbudujemy obraz docker"
             }
         }
-        stage('Budowanie Obrazy') {
-            when {
-                expression {
-                    currentBuild.currentResult == 'SUCCESS' && params.whichScript == 'python-flusk'
-                }
-            }
-            steps {
-                sh """
-                    docker build -t "${localImageName}:${tagImage}" "${workDir}"
-                """
-            }
-        }
         stage('Logowanie do docker`a') {
             when {
                 expression {
@@ -87,6 +75,18 @@ pipeline {
                     echo "$DockerPassword" | docker login -u "$DockerUsername" --password-stdin
                 """
                 }
+            }
+        }
+        stage('Budowanie Obrazy') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS' && params.whichScript == 'python-flusk'
+                }
+            }
+            steps {
+                sh """
+                    docker build -t "${localImageName}:${tagImage}" "${workDir}"
+                """
             }
         }
         stage('Uruchomienie kontenera') {
