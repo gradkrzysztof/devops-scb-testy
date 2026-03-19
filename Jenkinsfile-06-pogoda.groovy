@@ -16,6 +16,7 @@ pipeline {
     }
     environment {
         workDir = "./cwiczenia/pogoda_python_flusk"
+        myDockerCredential = credentials('dockerHubCredentials')
     }
     stages {
         stage('Wybrales bash') {
@@ -99,6 +100,35 @@ pipeline {
                     echo "Testowanie endpointu /weather..."
                     curl -f "http://localhost:8000/weather?city=Warsaw&api_key=${myApiKey}"
                 """
+            }
+        }
+        stage('Zatrzymanie i usuniecie kontenera') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS' && params.whichScript == 'python-flusk'
+                }
+            }
+            steps {
+                sh """
+                    docker stop pogoda_api || true
+                    docker rm pogoda_api || true
+                """
+            }
+        }
+        stage('Logowanie do docker`a') {
+            when {
+                expression {
+                    currentBuild.currentResult == 'SUCCESS'
+                }
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials',
+                                                        passwordVariable: 'Password',
+                                                        usernameVariable: 'Username')]) {
+                sh """
+                    sh 'echo "$Username"'
+                """
+                }
             }
         }
     }
