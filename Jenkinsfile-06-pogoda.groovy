@@ -141,9 +141,8 @@ pipeline {
             }
             steps {
                 sh """
-                    docker tag ${localImageName}:${tagImage} ${HUB_IMAGE_BASE}:latest
-                    docker push "${HUB_IMAGE_BASE}:${tagImage}
-                    docker push "${HUB_IMAGE_BASE}:latest"
+                    docker tag ${localImageName}:${tagImage} ${HUB_IMAGE_BASE}:kgrad
+                    docker push "${HUB_IMAGE_BASE}:kgrad"
                 """
             }
         }
