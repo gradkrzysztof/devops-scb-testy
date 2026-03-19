@@ -1,4 +1,8 @@
 #!/usr/bin/env groovy
+import java.text.SimpleDateFormat
+
+def currentDate = new Date()
+String dateTime = currentDate.format("ddMMyyyy HHmm")
 
 pipeline {
     agent {
@@ -16,7 +20,10 @@ pipeline {
                 expression { params.whichScript == 'bash' }
             }
             steps {
-                sh "bash ./cwiczenia/pogoda/start.sh '${city}' '${myApiKey}'"
+                sh """
+                    bash ./cwiczenia/pogoda/start.sh '${city}' '${myApiKey}'
+                    echo 'Podana temperatura w ${city} jest z dnia i godziny ${dateTime}'
+                """
             }
         }
         stage('Wybrales python') {
@@ -24,7 +31,10 @@ pipeline {
                expression { params.whichScript == 'python' }
             }
             steps {
-                sh "python3 ./cwiczenia/pogoda_python/start.py '${city}' '${myApiKey}'"
+                sh """
+                    python3 ./cwiczenia/pogoda_python/start.py '${city}' '${myApiKey}'
+                    echo 'Podana temperatura w ${city} jest z dnia i godziny ${dateTime}'
+                """
             }
         }
     }
