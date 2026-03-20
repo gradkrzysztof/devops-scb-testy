@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Docker + actions/cache (warstwy buildx)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        min-height: 100vh;
+        align-items: center;
+        justify-content: center;
+        background: #0f172a;
+        color: #e5e7eb;
+      }
+      .card {
+        padding: 2rem 3rem;
+        border-radius: 1rem;
+        background: #020617;
+        box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.8);
+        text-align: center;
+        max-width: 520px;
+      }
+      h1 {
+        margin-bottom: 0.75rem;
+        font-size: 2rem;
+      }
+      p {
+        margin: 0.3rem 0;
+        opacity: 0.9;
+      }
+      code {
+        padding: 0.15rem 0.35rem;
+        border-radius: 0.35rem;
+        background: #111827;
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Docker + actions/cache 🚀</h1>
+      <p>
+        Ten obraz został zbudowany w GitHub Actions z cache'owaniem warstw
+        Dockera.
+      </p>
+      <p>
+        Workflow używa <code>actions/cache</code> do przechowywania katalogu
+        <code>/tmp/.buildx-cache</code> oraz
+        <code>docker/build-push-action@v6</code> z
+        <code>cache-from/cache-to</code> typu <code>local</code>.
+      </p>
+      <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.7">
+        Zmień ten plik lub <code>Dockerfile</code>, zrób commit i zobacz, jak
+        zachowuje się cache w kolejnych buildach.
+      </p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "actions-cache-example",
+  "version": "1.0.0",
+  "description": "Przyklad wykorzystania actions/cache do cache'owania node_modules",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node -e \"console.log('Brak testow - przyklad CI');\""
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
