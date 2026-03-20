@@ -266,6 +266,6 @@ jobs:
           ansible-playbook \
             -i inventories/hosts.yaml \
             deploy-app.yml \
-            --limit piotr-koska-github-actions-droplet \
+            --limit krzysztof-grad-github-actions-droplet \
             -e "docker_image=${{ env.HUB_IMAGE_BASE }}:ansible" \
             -e "openweather_api_key=${{ secrets.OPENWEATHER_API_KEY }}"
